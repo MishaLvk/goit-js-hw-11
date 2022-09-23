@@ -92,6 +92,17 @@ a {
   border-radius: 5px;
 }
 
+.load-more:focus,
+.load-more:hover {
+  cursor: pointer;
+  transform: scale(1.02);
+}
+
+.search-form:focus,
+.search-form:hover {
+  cursor: pointer;
+}
+
 .is-hiden {
   display: none;
 }
