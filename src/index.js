@@ -23,7 +23,10 @@ async function searchImage(evt) {
     buttonMore.classList.add('is-hiden');
   }
   clearGallery();
-
+  if (evt.currentTarget.elements.searchQuery.value == '') {
+    Notiflix.Notify.failure('Sorry, the search field is empty!');
+    return;
+  }
   newsApiService.query = evt.currentTarget.elements.searchQuery.value;
   newsApiService.resetPage();
   const fatchArticles = await newsApiService.fatchArticles();
