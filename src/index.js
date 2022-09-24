@@ -121,7 +121,6 @@ async function scrl() {
   if (docBottom - display <= 200) {
     window.removeEventListener('scroll', scrl);
     renderGallery(await newsApiService.fatchArticles());
-    docBottomdocBottom =
-      document.documentElement.getBoundingClientRect().bottom;
+    docBottom = document.documentElement.getBoundingClientRect().bottom;
   }
 }
