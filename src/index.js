@@ -10,6 +10,7 @@ let lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
+
 const newsApiService = new NewsApiService();
 let sum = null;
 
@@ -47,6 +48,14 @@ async function searchImage(evt) {
 
 async function loadMore() {
   renderGallery(await newsApiService.fatchArticles());
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
 }
 
 function renderGallery(obj) {
@@ -58,6 +67,7 @@ function renderGallery(obj) {
       "We're sorry, but you've reached the end of search results."
     );
     buttonMore.classList.add('is-hiden');
+    window.removeEventListener('scroll', scrl);
   }
   arr.map(
     ({
@@ -93,6 +103,7 @@ function renderGallery(obj) {
   );
   if (arr.length >= newsApiService.per_page && sum < obj.totalHits) {
     buttonMore.classList.remove('is-hiden');
+    window.addEventListener('scroll', scrl);
   }
 }
 
@@ -102,4 +113,15 @@ function clearGallery() {
 
 function imageCounter(obj) {
   sum += obj.hits.length;
+}
+
+async function scrl() {
+  const display = document.documentElement.clientHeight;
+  let docBottom = document.documentElement.getBoundingClientRect().bottom;
+  if (docBottom - display <= 200) {
+    window.removeEventListener('scroll', scrl);
+    renderGallery(await newsApiService.fatchArticles());
+    docBottomdocBottom =
+      document.documentElement.getBoundingClientRect().bottom;
+  }
 }
